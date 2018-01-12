@@ -37,109 +37,26 @@
 			</div>
 	
 	
-	<table class="wrap-bd" border="1">
-				<tbody><tr>
-					<th><input type="checkbox" id="allChoose"></th>
-					<th>姓名</th>
-					<th>年龄</th>
-					<th>性别</th>
-					<th>籍贯</th>
-					<th>身份证号码</th>
-					<th>手机号码</th>
-					<th>职业</th>
-					<th>操作</th>
-				</tr>
-
-	<tr>
-		<td><input type="checkbox" class="choose"></td>
-		<td>张三</td>
-		<td>18</td>
-		<td> 
-			 
-				男
-			
-		
-			
-		
-		</td>
-		<td>汉族</td>
-		<td>430123456789101112</td>
-		<td>12345678910</td>
-		<td>学生</td>
-		<td>
-			<button id="updateBtn" type="button">修改</button>
-			<button id="delBtn" type="button">删除</button>
-		</td>		
-	</tr>
-
-	<tr>
-		<td><input type="checkbox" class="choose"></td>
-		<td>李四</td>
-		<td>22</td>
-		<td> 
-			
-		
-			 
-				女
-			
-		
-		</td>
-		<td>白族</td>
-		<td>430123456789101112</td>
-		<td>12345678910</td>
-		<td>工人</td>
-		<td>
-			<button id="updateBtn" type="button">修改</button>
-			<button id="delBtn" type="button">删除</button>
-		</td>		
-	</tr>
-
-	<tr>
-		<td><input type="checkbox" class="choose"></td>
-		<td>王五</td>
-		<td>28</td>
-		<td> 
-			 
-				男
-			
-		
-			
-		
-		</td>
-		<td>苗族</td>
-		<td>430123456789101112</td>
-		<td>12345678910</td>
-		<td>企业家</td>
-		<td>
-			<button id="updateBtn" type="button">修改</button>
-			<button id="delBtn" type="button">删除</button>
-		</td>		
-	</tr>
-
-	<tr>
-		<td><input type="checkbox" class="choose"></td>
-		<td>赵六</td>
-		<td>24</td>
-		<td> 
-			
-		
-			 
-				女
-			
-		
-		</td>
-		<td>土家族</td>
-		<td>430123456789101112</td>
-		<td>12345678910</td>
-		<td>主持人</td>
-		<td>
-			<button id="updateBtn" type="button">修改</button>
-			<button id="delBtn" type="button">删除</button>
-		</td>		
-	</tr>
-
-			</tbody>
+			<table class="wrap-bd" border="1">
+				<thead>
+					<tr>
+						<th><input type="checkbox" id="allChoose"></th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>性别</th>
+						<th>籍贯</th>
+						<th>身份证号码</th>
+						<th>手机号码</th>
+						<th>职业</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
 			</table>	
+			
+			
 			
 				
 		</div>
@@ -200,3 +117,83 @@
 		<script type="text/javascript" src="js/list.js" ></script>
 	</body>
 </html>
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/template.js" ></script>
+<script type="text/javascript" src="js/box.js" ></script>
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/template" id="good">
+<%for(var i =0;i<list.length;i++){%>			
+		<tr>
+			<td><input type="checkbox" class="choose"></td>
+			<td><%=list[i].userName%></td>
+			<td><%=list[i].userAge%></td>
+			<td> 
+				
+			
+				 
+					女
+				
+			
+			</td>
+			<td><%=list[i].userNation%></td>
+			<td><%=list[i].userCard%></td>
+			<td><%=list[i].userPhone%></td>
+			<td><%=list[i].userVoc%></td>
+			<td>
+				<button id="updateBtn" type="button">修改</button>
+				<button id="delBtn" type="button">删除</button>
+			</td>		
+		</tr>
+<%}%>		
+</script>
+<script type="text/javascript">
+	$(window).ready(function(){
+		var url = "json/list.json" ;
+		
+		var str = $("#good").html();
+		
+		var f = _.template(str);
+		
+			$.ajax({
+				type:"get",
+				url:url,
+				async:true,
+				success: function(data) {
+							
+					var obj = data;
+	
+					var h = f(obj);
+	
+					$(".wrap-bd tbody").html(h)
+				}
+			});
+			$("#allChoose").click(function(){
+				if($("#allChoose").prop("checked")==true){
+					$(".choose").prop("checked",true);
+				}else{
+					$(".choose").prop("checked",false);
+				}
+			});
+			
+//			$(document).on("click", ".choose", function() {
+//				
+//			})
+			$(".choose").click(function(){
+				var a = $(".choose input:checked").length
+
+				var b = $(".choose input:checkbox").length
+				
+				if (a == b) {
+					$("#allChoose").prop("checked", true)
+				} else {
+					$("#allChoose").prop("checked", false)
+				}
+				
+			})
+			$("#addBtn").click(function(){
+				alert("添加")
+			})
+		})			
+</script>
+
+	
